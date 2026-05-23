@@ -2,8 +2,6 @@ import math
 import tkinter as tk
 from tkinter import messagebox
 
-# En el programa solo se toma en cuenta la cantidad maxima de integrantes con los que
-# se compone el grupo segun indicaciones dadas en clase
 
 def calcular_reynolds(rho, d, v, mu):
     return (rho * d * v) / mu
@@ -30,7 +28,6 @@ def factor_friccion_turbulento_liso(Re, f0=0.02, tol=1e-8, max_iter=1000):
         f = rhs
     return f
 
-# El operador ** se usa para expresar potenciacion en Python
 
 def factor_friccion_turbulento_rugoso_completo(d, epsilon):
     return 1.0 / ((2.0 * math.log10(abs(d / epsilon)) + 1.14) ** 2)
@@ -89,7 +86,6 @@ def resolver_sistema(rho, mu, d, epsilon, L, delta_H, tol=1e-8, max_iter=500):
     return dict(f=f, Q=Q, v=v, Re=Re, tipo=tipo_flujo(Re), desc=desc, iters=max_iter, ok=False)
 
 
-# ---- Ventana principal ----
 ventana = tk.Tk()
 ventana.title("Trabajo Final - Fluidos")
 ventana.configure(bg="#f0f0f0")
@@ -97,9 +93,9 @@ ventana.resizable(False, False)
 
 FONT  = ("Arial", 10)
 FONT_B = ("Arial", 10, "bold")
-PAD   = {"padx": 8, "pady": 4}   # CORREGIDO: clave era "Times new roman " en lugar de "padx"
+PAD   = {"padx": 8, "pady": 4}   
 
-# ---- Integrantes ----
+
 frame_integ = tk.LabelFrame(ventana, text="Integrantes", font=FONT_B, bg="#f0f0f0", padx=8, pady=6)
 frame_integ.grid(row=0, column=0, columnspan=2, sticky="ew", padx=10, pady=(10, 4))
 
@@ -133,7 +129,6 @@ def actualizar_filas(*_):
 var_n.trace_add("write", actualizar_filas)
 actualizar_filas()
 
-# ---- Fluido ----
 frame_fluido = tk.LabelFrame(ventana, text="Propiedades del fluido", font=FONT_B, bg="#f0f0f0", padx=8, pady=6)
 frame_fluido.grid(row=1, column=0, sticky="nsew", padx=10, pady=4)
 
@@ -151,7 +146,6 @@ def preset_agua():
 
 tk.Button(frame_fluido, text="Usar agua 20C", font=FONT, command=preset_agua).grid(row=2, column=0, columnspan=2, pady=(4, 0))
 
-# ---- Sistema ----
 frame_sis = tk.LabelFrame(ventana, text="Sistema", font=FONT_B, bg="#f0f0f0", padx=8, pady=6)
 frame_sis.grid(row=1, column=1, sticky="nsew", padx=10, pady=4)
 
@@ -159,7 +153,6 @@ tk.Label(frame_sis, text="Delta H (m):", font=FONT, bg="#f0f0f0").grid(row=0, co
 var_dH = tk.StringVar(value="10.0")
 tk.Entry(frame_sis, textvariable=var_dH, width=12, font=FONT).grid(row=0, column=1, **PAD)
 
-# ---- Resultados ----
 frame_res = tk.LabelFrame(ventana, text="Resultados", font=FONT_B, bg="#f0f0f0", padx=8, pady=6)
 frame_res.grid(row=2, column=0, columnspan=2, sticky="ew", padx=10, pady=4)
 
@@ -185,7 +178,6 @@ for i, (nombre, clave) in enumerate(campos):
     lbl.grid(row=fila, column=col * 2 + 1, sticky="w")
     labels_res[clave] = lbl
 
-# ---- Calcular ----
 def calcular():
     try:
         xs, xxs = [], []
