@@ -2,8 +2,9 @@ import math
 import tkinter as tk
 from tkinter import messagebox
 
-#En el programa solo se toma en cuenta la cantidad máxima de integrantes con los que se compone el grupo según indicaciones dadas
-#en clase
+# En el programa solo se toma en cuenta la cantidad maxima de integrantes con los que
+# se compone el grupo segun indicaciones dadas en clase
+
 def calcular_reynolds(rho, d, v, mu):
     return (rho * d * v) / mu
 
@@ -28,7 +29,8 @@ def factor_friccion_turbulento_liso(Re, f0=0.02, tol=1e-8, max_iter=1000):
             return rhs
         f = rhs
     return f
-# el ** nos ayuda para expresar la operación de potenciación y que python lo pueda asimilar 
+
+# El operador ** se usa para expresar potenciacion en Python
 
 def factor_friccion_turbulento_rugoso_completo(d, epsilon):
     return 1.0 / ((2.0 * math.log10(abs(d / epsilon)) + 1.14) ** 2)
@@ -65,7 +67,7 @@ def calcular_factor_friccion(Re, d, epsilon):
         return factor_friccion_turbulento_rugoso_completo(d, epsilon), "Turbulento rugoso (Ec. 4)"
     return factor_friccion_turbulento_rugoso_transicion(Re, d, epsilon), "Turbulento rugoso (Ec. 5)"
 
-def calcular_caudal(delta_H, f, L, d, g=9.76):
+def calcular_caudal(delta_H, f, L, d, g=9.81):
     c = (8.0 * L) / (math.pi ** 2 * g * d ** 5)
     return math.sqrt(delta_H / (f * c))
 
@@ -87,15 +89,15 @@ def resolver_sistema(rho, mu, d, epsilon, L, delta_H, tol=1e-8, max_iter=500):
     return dict(f=f, Q=Q, v=v, Re=Re, tipo=tipo_flujo(Re), desc=desc, iters=max_iter, ok=False)
 
 
-
+# ---- Ventana principal ----
 ventana = tk.Tk()
 ventana.title("Trabajo Final - Fluidos")
 ventana.configure(bg="#f0f0f0")
 ventana.resizable(False, False)
 
-FONT = ("Arial", 10)
+FONT  = ("Arial", 10)
 FONT_B = ("Arial", 10, "bold")
-PAD = {"Times new roman ": 8, "pady": 4}
+PAD   = {"padx": 8, "pady": 4}   # CORREGIDO: clave era "Times new roman " en lugar de "padx"
 
 # ---- Integrantes ----
 frame_integ = tk.LabelFrame(ventana, text="Integrantes", font=FONT_B, bg="#f0f0f0", padx=8, pady=6)
@@ -147,7 +149,7 @@ def preset_agua():
     var_rho.set("998.2")
     var_mu.set("0.001002")
 
-tk.Button(frame_fluido, text="Usar agua 20C", font=FONT, command=preset_agua).grid(row=2, column=0, columnspan=2, pady=(4,0))
+tk.Button(frame_fluido, text="Usar agua 20C", font=FONT, command=preset_agua).grid(row=2, column=0, columnspan=2, pady=(4, 0))
 
 # ---- Sistema ----
 frame_sis = tk.LabelFrame(ventana, text="Sistema", font=FONT_B, bg="#f0f0f0", padx=8, pady=6)
@@ -177,9 +179,10 @@ campos = [
 
 for i, (nombre, clave) in enumerate(campos):
     fila, col = divmod(i, 2)
-    tk.Label(frame_res, text=nombre + ":", font=FONT, bg="#f0f0f0", anchor="w", width=14).grid(row=fila, column=col*2, sticky="w", padx=(4,0))
+    tk.Label(frame_res, text=nombre + ":", font=FONT, bg="#f0f0f0", anchor="w", width=14).grid(
+        row=fila, column=col * 2, sticky="w", padx=(4, 0))
     lbl = tk.Label(frame_res, text="—", font=FONT, bg="#f0f0f0", anchor="w", width=22)
-    lbl.grid(row=fila, column=col*2+1, sticky="w")
+    lbl.grid(row=fila, column=col * 2 + 1, sticky="w")
     labels_res[clave] = lbl
 
 # ---- Calcular ----
@@ -219,7 +222,7 @@ def calcular():
         labels_res["f"].config(text=f"{res['f']:.8f}")
         labels_res["v"].config(text=f"{res['v']:.6f}")
         labels_res["Q"].config(text=f"{res['Q']:.8f}")
-        labels_res["Ql"].config(text=f"{res['Q']*1000:.4f}")
+        labels_res["Ql"].config(text=f"{res['Q'] * 1000:.4f}")
         labels_res["ec"].config(text=res["desc"])
 
     except ValueError as e:
