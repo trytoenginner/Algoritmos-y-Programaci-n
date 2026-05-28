@@ -87,7 +87,7 @@ def resolver_sistema(rho, mu, d, epsilon, L, delta_H, tol=1e-8, max_iter=500):
 
 
 ventana = tk.Tk()
-ventana.title("Trabajo Final - Fluidos")
+ventana.title("Trabajo Final I - Fluidos")
 ventana.configure(bg="#f0f0f0")
 ventana.resizable(False, False)
 
